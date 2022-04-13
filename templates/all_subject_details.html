@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block title %} AllSubjectDetails {% endblock title %}
+{% block body %}
+
+<div class="container my-3">
+    <h2>Subjects
+        {% include 'aa_nav.html' %}
+    </h2>
+
+    {% if allSub|length==0 %}
+    <div class="alert alert-dark" role="alert">
+        No Course
+    </div>
+    {% else %}
+    <table class="table">
+
+        <tbody>
+            <thead>
+                <tr>
+                    <th scope="col">sno</th>
+                    <th scope="col">Subject Id</th>
+                    <th scope="col">Subject Name</th>
+                    <th scope="col">Course Name</th>
+                    <th scope="col">Course Discription</th>
+                    <th scope="col">Subject Instractor</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            {% for subject in allSub %}
+            <tr>
+                <th scope="row">{{loop.index}}</th>
+                <td>{{subject.sub_id}}</td>
+                <td>{{subject.sub_name}}</td>
+                <td>{{subject.course_name}}</td>
+                <td>{{subject.course_desc}}</td>
+                <td>{{subject.f_name}} {{subject.l_name}}</td>
+                <td>
+                    <a href="/update-subject/{{subject.sub_id}}" type="button" class="btn btn-outline-warning btn-sm mx-1">Update</a>
+                    <a href="/delete-subject/{{subject.sub_id}}" type="button"
+                        class="btn btn-outline-danger btn-sm mx-1">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    {% endif %}
+
+{% endblock body %}

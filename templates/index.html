@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %} home {% endblock title %}
+{% block body %}
+<div class="container my-3">
+    <div class="row row-cols-5">
+      <a href="/add-faculty" type="button" class="btn btn-outline-success btn-sm mb-3 mx-2">Add Faculty</a>
+      <a href="/all-faculty" type="button" class="btn btn-outline-primary btn-sm mb-3 mx-2">View All Faculty</a>
+      <a href="/add-student" type="button" class="btn btn-outline-success btn-sm mb-3 mx-2">Add Student</a>
+      <a href="/all-student" type="button" class="btn btn-outline-primary btn-sm mb-3 mx-2">View All Student</a>
+    </div>
+    <div class="row row-cols-5">
+      <a href="/add-course" type="button" class="btn btn-outline-success btn-sm mb-3 mx-2">Add Course</a>
+      <a href="/all-course" type="button" class="btn btn-outline-primary btn-sm mb-3 mx-2">View All Course</a>
+      <a href="/add-subject" type="button" class="btn btn-outline-success btn-sm mb-3 mx-2">Add Subject</a>
+      <a href="/all-subject" type="button" class="btn btn-outline-primary btn-sm mb-3 mx-2">View All Subject</a>
+    </div>
+    <div class="row row-cols-5">
+      <a href="/reports" type="button" class="btn btn-outline-primary btn-sm mb-3 mx-2">View Reports</a>
+    </div>
+  </div>
+{% endblock body %}

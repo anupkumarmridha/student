@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block title %} home {% endblock title %}
+{% block body %}
+
+
+<div class="container my-3">
+    <h2>Add A Attendance</h2>
+    <form action="/" method="POST">
+        <div class="mb-3">
+            <label for="userId" class="form-label">Enter userId</label>
+            <input type="text" class="form-control" name="userId" id="userId" aria-describedby="emailHelp">
+
+        </div>
+        <div class="mb-3">
+            <label for="userName" class="form-label">Enter userName</label>
+            <input type="text" class="form-control" name="userName" id="userName">
+        </div>
+        <div class="mb-3">
+            <label for="phone" class="form-label">Enter Phone</label>
+            <input type="text" class="form-control" name="phone" id="phone">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+<div class="container my-3">
+    <h2>Students Attendence</h2>
+
+    {% if allStudent|length==0 %}
+    <div class="alert alert-dark" role="alert">
+        No Attendance
+    </div>
+    {% else %}
+    <table class="table">
+
+        <tbody>
+            <thead>
+                <tr>
+                    <th scope="col">sno</th>
+                    <th scope="col">userId</th>
+                    <th scope="col">userName</th>
+                    <th scope="col">phone</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            {% for student in allStudent %}
+            <tr>
+                <th scope="row">{{loop.index}}</th>
+                <td>{{student.userId}}</td>
+                <td>{{student.userName}}</td>
+                <td>{{student.phone}}</td>
+                <td>
+                    <a href="/update/{{student.userId}}" type="button" class="btn btn-outline-warning btn-sm mx-1">Update</a>
+                    <a href="/delete/{{student.userId}}" type="button"
+                        class="btn btn-outline-danger btn-sm mx-1">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    {% endif %}
+
+</div>
+
+
+
+
+
+
+{% endblock body %}

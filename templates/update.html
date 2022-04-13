@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %} update {% endblock title %}
+{% block body %}
+<div class="container my-3">
+    <h2>update Attendance</h2>
+    {% for student in stuBio %}
+    <form action="/update/{{student.userId}}" method="POST">
+        <div class="mb-3">
+            <label for="userId" class="form-label">Enter userId</label>
+            <input type="text" class="form-control" name="userId" value={{student.userId}} id="userId" aria-describedby="emailHelp">
+
+        </div>
+        <div class="mb-3">
+            <label for="userName" class="form-label">Enter userName</label>
+            <input type="text" class="form-control" name="userName" value={{student.userName}} id="userName">
+        </div>
+        <div class="mb-3">
+            <label for="phone" class="form-label">Enter Phone</label>
+            <input type="text" class="form-control" name="phone" value={{student.phone}} id="phone">
+        </div>
+
+        {% endfor %}
+        
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+{% endblock body %}

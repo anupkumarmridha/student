@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block title %} AddStudent {% endblock title %}
+{% block body %}
+
+<div class="container my-3">
+    <h2>Add Student
+        {% include 'aa_nav.html' %}
+    </h2>
+    <form action="/add-student" method="POST">
+        <div class="mb-3">
+            <label for="stu_roll" class="form-label">Roll Number</label>
+            <input type="text" class="form-control" name="stu_roll" id="stu_roll" 
+                placeholder="Enetr Student Roll Number Sould be Unique">
+        </div>
+
+        <div class="mb-3">
+            <label for="stu_email" class="form-label">Email</label>
+            <input type="text" class="form-control" name="stu_email" id="stu_email" aria-describedby="emailHelp"
+                placeholder="abc@gmail.com">
+        </div>
+
+
+
+        <div class="mb-3">
+            <label for="stu_pass" class="form-label">Enetr Password</label>
+            <input type="password" class="form-control" id="stu_pass" name="stu_pass" placeholder="Enetr Password">
+        </div>
+
+        <div class="mb-3">
+            <label for="stu_pass2" class="form-label">Confirm Password</label>
+            <input type="password" class="form-control" id="stu_pass2" name="stu_pass2" placeholder="Confirm Password">
+        </div>
+
+        <div class="mb-3">
+            <label for="phone" class="form-label">Phone</label>
+            <input type="text" class="form-control" name="phone" id="phone" placeholder="Enetr Phone Number">
+        </div>
+
+        <div class="mb-3">
+            <label for="f_name" class="form-label">First Name</label>
+            <input type="text" class="form-control" name="f_name" id="f_name" placeholder="Enetr Student First Name">
+        </div>
+
+        <div class="mb-3">
+            <label for="l_name" class="form-label">Last Name</label>
+            <input type="text" class="form-control" name="l_name" id="l_name" placeholder="Enetr Student Last Name">
+        </div>
+        <div class="mb-3">
+            <select class="form-select" name="gender" aria-label="Default select example">
+                <option selected>Gender</option>
+                
+                <option  value="M">Male</option>
+                <option  value="F">Female</option>
+                </input>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="dob" class="form-label">Date of Birth</label>
+            <input type="date" id="dob" name="dob" value="2018-07-22" min="1900-01-01" max="3018-12-31">
+        </div>
+        <div class="mb-3">
+            <label for="stu_adrs" class="form-label">Address</label>
+            <input type="text-area" class="form-control" name="stu_adrs" id="stu_adrs" placeholder="Address">
+        </div>
+
+        <button type="submit" class="btn btn-success btn-lg">Submit</button>
+    </form>
+</div>
+
+{% endblock body %}

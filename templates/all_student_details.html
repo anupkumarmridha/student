@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block title %} AllStudentsDetails {% endblock title %}
+{% block body %}
+<div class="container my-3">
+    <h2>All Students
+        {% include 'aa_nav.html' %}
+    </h2>
+
+    {% if allStudent|length==0 %}
+    <div class="alert alert-dark" role="alert">
+        No Students
+    </div>
+    {% else %}
+    <table class="table">
+
+        <tbody>
+            <thead>
+                <tr>
+                    <th scope="col">sno</th>
+                    <th scope="col">Roll No.</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Phone</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">DOB</th>
+                    <th scope="col">Date of Join</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            {% for student in allStudent %}
+            <tr>
+                <th scope="row">{{loop.index}}</th>
+                <td><a href="/faculty-details/{{student.stu_roll}}"> {{student.stu_roll}} </a></td>
+                <td>{{student.f_name}}</td>
+                <td>{{student.l_name}}</td>
+                <td>{{student.stu_email}}</td>
+                <td>{{student.phone}}</td>
+                <td>{{student.stu_adrs}}</td>
+                <td>{{student.dob}}</td>
+                <td>{{student.created_at}}</td>
+                <td>
+                    <a href="/update-student/{{student.stu_roll}}" type="button" class="btn btn-outline-warning btn-sm mx-1">Update</a>
+                    <a href="/delete-student/{{student.stu_roll}}" type="button"
+                        class="btn btn-outline-danger btn-sm mx-1">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    {% endif %}
+
+{% endblock body %}

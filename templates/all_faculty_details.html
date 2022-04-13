@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block title %} AllFacultyDetails {% endblock title %}
+{% block body %}
+<div class="container my-3">
+    <h2>All Faculty
+   {% include 'aa_nav.html' %}
+    </h2>
+
+    {% if allFaculty|length==0 %}
+    <div class="alert alert-dark" role="alert">
+        No Faculty
+    </div>
+    {% else %}
+    <table class="table">
+
+        <tbody>
+            <thead>
+                <tr>
+                    <th scope="col">sno</th>
+                    <th scope="col">Faculty Id.</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Phone</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">DOB</th>
+                    <th scope="col">Date of Join</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            {% for faculty in allFaculty %}
+            <tr>
+                <th scope="row">{{loop.index}}</th>
+                <td> <a href="/faculty-details/{{faculty.faculty_id}}"> {{faculty.faculty_id}} </a></td>
+                <td>{{faculty.f_name}}</td>
+                <td>{{faculty.l_name}}</td>
+                <td>{{faculty.faculty_email}}</td>
+                <td>{{faculty.phone}}</td>
+                <td>{{faculty.faculty_adrs}}</td>
+                <td>{{faculty.dob}}</td>
+                <td>{{faculty.created_at}}</td>
+                <td>
+                    <a href="/update-faculty/{{faculty.faculty_id}}" type="button" class="btn btn-outline-warning btn-sm mx-1">Update</a>
+                    <a href="/delete-faculty/{{faculty.faculty_id}}" type="button"
+                        class="btn btn-outline-danger btn-sm mx-1">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    {% endif %}
+
+{% endblock body %}
