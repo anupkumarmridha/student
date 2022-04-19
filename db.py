@@ -1,5 +1,4 @@
-
-from logging import exception
+from asyncio import exceptions
 import mysql.connector as connector
 import json
 from flask import Flask, redirect
@@ -83,8 +82,8 @@ class Database:
                     faculty_id int not NULL,
                     created_at datetime default now(),
                     updated_at datetime default now(),
-                    foreign key(course_id) references course(course_id),
-                    foreign key(faculty_id) references faculty(faculty_id)
+                    foreign key(course_id) references course(course_id) ON UPDATE CASCADE ON DELETE CASCADE,
+                    foreign key(faculty_id) references faculty(faculty_id) ON UPDATE CASCADE ON DELETE CASCADE
                     );
                     
                     """
@@ -97,8 +96,8 @@ class Database:
                     stu_roll int not NULL, 
                     sub_id int not NULL, 
                     created_at datetime default now(),
-                    foreign key(stu_roll) references student(stu_roll),
-                    foreign key(sub_id) references subject(sub_id)
+                    foreign key(stu_roll) references student(stu_roll) ON UPDATE CASCADE ON DELETE CASCADE,
+                    foreign key(sub_id) references subject(sub_id) ON UPDATE CASCADE ON DELETE CASCADE
                     );
                     """
             self.cur.execute(present_table) 
@@ -109,8 +108,8 @@ class Database:
                     stu_roll int not NULL, 
                     sub_id int not NULL, 
                     created_at datetime default now(),
-                    foreign key(stu_roll) references student(stu_roll),
-                    foreign key(sub_id) references subject(sub_id)
+                    foreign key(stu_roll) references student(stu_roll) ON UPDATE CASCADE ON DELETE CASCADE,
+                    foreign key(sub_id) references subject(sub_id) ON UPDATE CASCADE ON DELETE CASCADE
                     );
                     """
             self.cur.execute(absent_table)
@@ -123,10 +122,10 @@ class Database:
                     sub_id int not NULL, 
                     course_id int not NULL, 
                     created_at datetime default now(),
-                    foreign key(stu_roll) references student(stu_roll),
-                    foreign key(faculty_id) references faculty(faculty_id),
-                    foreign key(sub_id) references subject(sub_id),
-                    foreign key(course_id) references course(course_id)
+                    foreign key(stu_roll) references student(stu_roll) ON UPDATE CASCADE ON DELETE CASCADE,
+                    foreign key(faculty_id) references faculty(faculty_id) ON UPDATE CASCADE ON DELETE CASCADE,
+                    foreign key(sub_id) references subject(sub_id) ON UPDATE CASCADE ON DELETE CASCADE,
+                    foreign key(course_id) references course(course_id) ON UPDATE CASCADE ON DELETE CASCADE
                     );
                     """
 
@@ -144,7 +143,7 @@ class Database:
             create_absent()
             create_report()
             print("Created")
-        except exception as e:
+        except Exception as e:
             print(e)
         
 
