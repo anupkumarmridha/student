@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block title %} Update-Student {% endblock title %}
+{% block body %}
+
+
+<div class="container my-3">
+    <h2>Update Student
+        {% include 'aa_nav.html' %}
+    </h2>
+    {% for student in stuBio %}
+    <form action="/update-student/{{student.stu_roll}}" method="POST">
+        
+            
+        <div class="mb-3">
+            <label for="stu_roll" class="form-label">Student Roll</label>
+            <input type="text" class="form-control" value="{{student.stu_roll}}" name="stu_roll" id="stu_roll" 
+                placeholder="Enetr student Roll Should be unique">
+        </div>
+
+        <div class="mb-3">
+            <label for="stu_email" class="form-label">Email</label>
+            <input type="text" class="form-control" name="stu_email" value="{{student.stu_email}}" id="stu_email" aria-describedby="emailHelp"
+                placeholder="abc@gmail.com">
+        </div>
+
+
+
+        <div class="mb-3">
+            <label for="stu_pass" class="form-label">Password</label>
+            <input type="password" class="form-control" id="stu_pass" value="{{student.stu_pass}}" name="stu_pass" placeholder="Enetr Password">
+        </div>
+
+        <div class="mb-3">
+            <label for="stu_pass2" class="form-label">Confirm Password</label>
+            <input type="password" class="form-control" id="stu_pass2" value="{{student.stu_pass}}" name="stu_pass2" placeholder="Confirm Password">
+        </div>
+
+        <div class="mb-3">
+            <label for="phone" class="form-label">Phone</label>
+            <input type="text" class="form-control" value="{{student.phone}}" name="phone" id="phone" placeholder="Enetr Phone Number">
+        </div>
+
+        <div class="mb-3">
+            <label for="f_name" class="form-label">First Name</label>
+            <input type="text" class="form-control" value="{{student.f_name}}" name="f_name" id="f_name" placeholder="Enetr student First Name">
+        </div>
+
+        <div class="mb-3">
+            <label for="l_name"  class="form-label" >Last Name</label>
+            <input type="text" class="form-control" value="{{student.l_name}}" name="l_name" id="l_name" placeholder="Enetr student Last Name">
+        </div>
+        <div class="mb-3">
+            <select class="form-select" name="gender" aria-label="Default select example">
+                <option selected>{{student.gender}}</option>
+                <option  value="M">Male</option>
+                <option  value="F">Female</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="dob" class="form-label">Date of Birth</label>
+            <input type="date" id="dob" name="dob" value="{{student.dob}}" min="1900-01-01" max="3018-12-31">
+        </div>
+        <div class="mb-3">
+            <label for="stu_adrs"  class="form-label">Address</label>
+            <input type="text-area" class="form-control" value="{{student.stu_adrs}}" name="stu_adrs" id="stu_adrs" placeholder="Address">
+        </div>
+        {% endfor %}
+
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+</div>
+
+{% endblock body %}

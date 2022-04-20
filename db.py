@@ -174,7 +174,7 @@ class Database:
 
     # update-faculty
     def update_faculty(self, faculty_id, f_name, l_name, gender, dob, faculty_adrs, faculty_email, faculty_pass, phone):
-        query="update faculty set faculty_id={}, f_name='{}', l_name='{}', gender='{}', dob='{}', faculty_adrs='{}', faculty_email='{}', faculty_pass='{}' phone='{}' where faculty_id={}".format(faculty_id, f_name, l_name, gender, dob, faculty_adrs, faculty_email, faculty_pass, phone,faculty_id)
+        query="update faculty set faculty_id={}, f_name='{}', l_name='{}', gender='{}', dob='{}', faculty_adrs='{}', faculty_email='{}', faculty_pass='{}', phone='{}' where faculty_id={}".format(faculty_id, f_name, l_name, gender, dob, faculty_adrs, faculty_email, faculty_pass, phone,faculty_id)
         print(query)
         cur=self.cnx.cursor()
         cur.execute(query)
@@ -194,6 +194,7 @@ class Database:
     def fetch_all_faculty(self):
         query="select * from faculty"
         self.cur.execute(query)
+        print(query)
         result=self.cur.fetchall()
         # cur=self.cnx.cursor()
         if len(result)>0:
@@ -227,7 +228,7 @@ class Database:
 
     # update-student
     def update_student(self, stu_roll, f_name, l_name, gender, dob, stu_adrs ,stu_email, stu_pass, phone):
-        query="update student set stu_roll={}, f_name='{}', l_name='{}', gender='{}', dob='{}', stu_adrs='{}', stu_email='{}', stu_pass='{}' phone='{}' where stu_roll={}".format(stu_roll, f_name, l_name, gender, dob, stu_adrs ,stu_email, stu_pass, phone)
+        query="update student set stu_roll={}, f_name='{}', l_name='{}', gender='{}', dob='{}', stu_adrs='{}', stu_email='{}', stu_pass='{}', phone='{}' where stu_roll={}".format(stu_roll, f_name, l_name, gender, dob, stu_adrs ,stu_email, stu_pass, phone, stu_roll)
         print(query)
         cur=self.cnx.cursor()
         cur.execute(query)
@@ -275,8 +276,8 @@ class Database:
     #    self.cnx.commit()    #commit method come from connection
 
     # update-course
-    def update_course(self, course_id, course_name):
-        query="update course set course_id={}, course_name='{}, course_desc='{}' where course_id={}".format(course_id, course_name, course_desc)
+    def update_course(self, course_id, course_name,course_desc):
+        query="update course set course_id={}, course_name='{}', course_desc='{}' where course_id={}".format(course_id, course_name, course_desc, course_id)
         print(query)
         cur=self.cnx.cursor()
         cur.execute(query)

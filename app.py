@@ -95,7 +95,8 @@ def deleteFaculty(faculty_id):
 def allFacultyDeatils():
     # print(allTodo)
     allFaculty=db.fetch_all_faculty()
-    return render_template('all_faculty_details.html',allFaculty=allFaculty)
+
+    return render_template('all_faculty_details.html',allFacultyDetails=allFaculty)
 
 
 
@@ -143,8 +144,10 @@ def updateStudent(stu_roll):
         stu_pass=request.form['stu_pass']
         phone=request.form['phone']
         db.update_student(stu_roll, f_name, l_name, gender, dob, stu_adrs, stu_email, stu_pass, phone)
+        
         return redirect('/all-student')
-    return render_template('update_student.html')
+    stuBio=db.fetch_one_student(stu_roll)
+    return render_template('update_student.html',stuBio=stuBio)
 
 @app.route("/delete-student/<int:stu_roll>", methods=['GET', 'POST'])
 def deleteStudent(stu_roll):
@@ -184,10 +187,11 @@ def updateCourse(course_id):
     if request.method=='POST':
         course_id=request.form['course_id']
         course_name=request.form['course_name']
-        db.update_course(course_id, course_name)
+        course_desc=request.form['course_desc']
+        db.update_course(course_id, course_name, course_desc)
         return redirect('/add-course')
-
-    return render_template('update_course.html')
+    CourseDetails=db.fetch_one_course(course_id)
+    return render_template('update_course.html',CourseDetails=CourseDetails)
 
 @app.route("/delete-course/<int:course_id>", methods=['GET', 'POST'])
 def deleteCourse(course_id):

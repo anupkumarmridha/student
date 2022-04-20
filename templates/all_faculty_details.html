@@ -6,7 +6,7 @@
    {% include 'aa_nav.html' %}
     </h2>
 
-    {% if allFaculty|length==0 %}
+    {% if allFacultyDetails|length==0 %}
     <div class="alert alert-dark" role="alert">
         No Faculty
     </div>
@@ -28,7 +28,7 @@
                     <th scope="col">Action</th>
                 </tr>
             </thead>
-            {% for faculty in allFaculty %}
+            {% for faculty in allFacultyDetails %}
             <tr>
                 <th scope="row">{{loop.index}}</th>
                 <td> <a href="/faculty-details/{{faculty.faculty_id}}"> {{faculty.faculty_id}} </a></td>

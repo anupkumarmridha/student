@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %} Update Course {% endblock title %}
+{% block body %}
+
+
+<div class="container my-3">
+    <h3>Update Course
+        {% include 'aa_nav.html' %}
+    </h3>
+    {% for course in CourseDetails %}
+        <form action="/update-course/{{course.course_id}}" method="POST">
+            <div class="mb-3">
+                <label for="course_id" class="form-label">Course Id</label>
+                <input type="text" class="form-control" value={{course.course_id}} name="course_id" id="course_id"
+                    placeholder="Enetr Course Id Sould be Unique">
+            </div>
+
+            <div class="mb-3">
+                <label for="course_name" class="form-label">Course Name</label>
+                <input type="text" class="form-control" value={{course.course_name}} name="course_name" id="course_name"
+                    placeholder="Enter Course Name">
+            </div>
+
+            <div class="mb-3">
+                <label for="course_desc" class="form-label">Course Description</label>
+                <input type="text" class="form-control" value={{course.course_desc}} name="course_desc" id="course_desc"
+                    placeholder="Enter Course Description">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        {% endfor %}
+</div>
+
+
+{% endblock body %}
