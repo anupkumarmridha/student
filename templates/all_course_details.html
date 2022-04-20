@@ -31,6 +31,8 @@
                 <td>{{course.course_name}}</td>
                 <td>{{course.course_desc}}</td>
                 <td>
+                    <a href="/enroll-course/{{course.course_id}}" type="button" class="btn btn-outline-success btn-sm mx-1">Add Students</a>
+                    <a href="/enrolled-course/{{course.course_id}}" type="button" class="btn btn-outline-success btn-sm mx-1">View Enrolled Students</a>
                     <a href="/update-course/{{course.course_id}}" type="button" class="btn btn-outline-warning btn-sm mx-1">Update</a>
                     <a href="/delete-course/{{course.course_id}}" type="button"
                         class="btn btn-outline-danger btn-sm mx-1">Delete</a>

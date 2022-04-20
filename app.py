@@ -1,6 +1,6 @@
 from logging import exception
 from plistlib import InvalidFileException
-from flask import Flask, redirect, render_template, request
+from flask import Flask, redirect, render_template, request, url_for
 from datetime import datetime
 from db import Database
 from flask_sqlalchemy import SQLAlchemy
@@ -210,6 +210,35 @@ def allCourseDeatils():
     # print(allTodo)
     allCourse=db.fetch_all_course()
     return render_template('all_course_details.html',allCourse=allCourse)
+
+@app.route("/enroll-course/<int:course_id>", methods=['GET', 'POST'])
+def enrollCourse(course_id):
+    # print(allTodo)
+    if request.method=='POST':
+        check=request.form.getlist('check')
+        for i in check:
+            print(i)
+            stu_roll=i
+            db.insert_enroll(stu_roll,course_id)
+        return redirect(url_for('enrolledCourse',course_id=course_id))
+    courseBio=db.fetch_one_course(course_id)
+    check_enroll=db.check_course_enroll(course_id=course_id)
+    if check_enroll==1:
+        allStudent=db.fetch_not_enrolled_students(course_id=course_id)
+    else:
+        allStudent=db.fetch_all_student()
+    return render_template('insert_enroll.html',courseBio=courseBio,allStudent=allStudent)
+
+@app.route("/enrolled-course/<int:course_id>", methods=['GET', 'POST'])
+def enrolledCourse(course_id):
+    allEnroll=db.fetch_course_enroll(course_id)
+    courseBio=db.fetch_one_course(course_id)
+    return render_template('view_enroll.html',allEnroll=allEnroll,courseBio=courseBio)
+
+@app.route("/delete-enroll/<int:course_id>/<int:enroll_id>", methods=['GET', 'POST'])
+def deleteEnroll(course_id,enroll_id):
+    db.delete_enroll(enroll_id)
+    return redirect(url_for('enrolledCourse',course_id=course_id))
 
 
 

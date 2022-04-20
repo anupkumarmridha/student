@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block title %} AllCourseDetails {% endblock title %}
+{% block body %}
+
+<div class="container my-3">
+    
+    <h4>
+        {% for course in courseBio %}
+        Students of {{course.course_name}}
+        {% endfor %}
+        {% include 'aa_nav.html' %}
+    </h4>
+
+    {% if allEnroll|length==0 %}
+    <div class="alert alert-dark" role="alert">
+        No One Enroll
+    </div>
+    {% else %}
+    <table class="table">
+
+        <tbody>
+            <thead>
+                <tr>
+                    <th scope="col">sno</th>
+                    <th scope="col">Roll</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            {% for enroll in allEnroll %}
+            <tr>
+                <th scope="row">{{loop.index}}</th>
+                <td>{{enroll.stu_roll}}</td>
+                <td>{{enroll.f_name}} {{enroll.l_name}}</td>
+
+                <td>
+  
+                    <a href="/delete-enroll/{{enroll.course_id}}/{{enroll.enroll_id}}" type="button" class="btn btn-outline-danger btn-sm mx-1">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    {% endif %}
+
+{% endblock body %}

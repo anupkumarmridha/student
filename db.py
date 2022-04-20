@@ -73,6 +73,19 @@ class Database:
                     """
             self.cur.execute(course_table) 
 
+        def create_enroll():
+            course_table="""create table if not exists enroll(
+                    enroll_id int not NULL AUTO_INCREMENT primary key, 
+                    stu_roll int not NULL,
+                    course_id int not NULL,
+                    created_at datetime default now(),
+                    updated_at datetime default now(),
+                    foreign key(stu_roll) references student(stu_roll) ON UPDATE CASCADE ON DELETE CASCADE,
+                    foreign key(course_id) references course(course_id) ON UPDATE CASCADE ON DELETE CASCADE
+                    );
+                    """
+            self.cur.execute(course_table) 
+
         # subject table
         def create_subject():
             subject_table="""create table if not exists subject(
@@ -134,10 +147,11 @@ class Database:
         
             
         try:
-            create_admin()
+            # create_admin()
             create_student()
             create_faculty()
             create_course()
+            create_enroll()
             create_subject()
             create_present()
             create_absent()
@@ -317,6 +331,72 @@ class Database:
         cur.execute(query)
         # print("Deleted")
 
+# insert enroll
+    def insert_enroll(self,stu_roll, course_id):
+       query="""insert into enroll(stu_roll,course_id)
+            values({},{})""".format(stu_roll,course_id)
+       print(query)
+    #    cur=self.cnx.cursor()    #curser method is come from connection
+       self.cur.execute(query)
+    #    self.cnx.commit()    #commit method come from connection
+
+    def fetch_course_enroll(self, course_id):
+        query="""SELECT * FROM enroll E LEFT OUTER JOIN 
+        student S  ON E.stu_roll=S.stu_roll where course_id={}
+        UNION SELECT * FROM enroll E RIGHT OUTER JOIN 
+        student S  ON E.stu_roll=S.stu_roll where course_id={}""".format(course_id,course_id)
+        print(query)
+    #    cur=self.cnx.cursor()    #curser method is come from connection
+        self.cur.execute(query)
+        
+        result=self.cur.fetchall()
+        if len(result)>0:
+            # return json.dumps(result)
+            return result
+        else:
+            return {"message":"No data Found"}
+
+    def fetch_one_enroll(self, enroll_id):
+        query="select * from enroll where enroll_id={}".format(enroll_id)
+        self.cur.execute(query)
+        result=self.cur.fetchall()
+        if len(result)>0:
+            # return json.dumps(result)
+            return result
+        else:
+            return {"message":"No data Found"}
+    
+    def check_course_enroll(self,course_id):
+        query="select * from enroll where course_id={}".format(course_id)
+        self.cur.execute(query)
+        result=self.cur.fetchall()
+        print(query)
+        if len(result)>0:
+            # return json.dumps(result)
+            return 1
+        else:
+            return 0
+    
+    def fetch_not_enrolled_students(self,course_id):
+        query="""SELECT * FROM enroll E LEFT OUTER JOIN 
+        student S  ON E.stu_roll<>S.stu_roll where course_id={}
+        UNION SELECT * FROM enroll E RIGHT OUTER JOIN 
+        student S  ON E.stu_roll<>S.stu_roll where course_id={}""".format(course_id,course_id)
+        self.cur.execute(query)
+        result=self.cur.fetchall()
+        if len(result)>0:
+            # return json.dumps(result)
+            return result
+        else:
+            return {"message":"No data Found"}
+
+
+    def delete_enroll(self, enroll_id):
+        query="delete from enroll where enroll_id={}".format(enroll_id)
+        print(query)
+        cur=self.cnx.cursor()
+        
+        cur.execute(query)
 
 
 # insert subject

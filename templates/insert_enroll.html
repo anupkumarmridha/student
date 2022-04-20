@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %} AddCourse {% endblock title %}
+{% block body %}
+<div class="container-fluid">
+  {% for course in courseBio %}
+  <form method="POST" action="/enroll-course/{{course.course_id}}">
+    <div class="container-fluid">
+
+      <div class="card" style="margin:50px 0">
+        
+        <!-- Default panel contents -->
+        <div class="card-header"><b>{{course.course_name}}</b></div>
+        {% endfor %}
+        {% for students in allStudent %}
+
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><b>Name</b> - {{students.f_name}} {{students.l_name}} <b>Roll</b>  - {{students.stu_roll}}
+            <label class="switch ">
+              <input type="checkbox" name="check" value="{{students.stu_roll}}" class="danger">
+              <span class="slider round"></span>
+            </label>
+          </li>
+        </ul>
+        {% endfor %}
+      </div>
+
+    </div>
+    <button type="submit" class="btn btn-danger">Enroll</button>
+  </form>
+
+</div>
+
+{% endblock body %}
