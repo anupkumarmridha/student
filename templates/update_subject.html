@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block title %} AddSubject {% endblock title %}
+{% block body %}
+
+<div class="container my-3">
+    <h4>Update Subject
+        {% include 'aa_nav.html' %}
+    </h4>
+    {% for subject in subBio %}
+        <form action="/update-subject/{{subject.sub_id}}" method="POST">
+            <div class="mb-3">
+                <label for="sub_id" class="form-label">Subject Id</label>
+                <input type="text" class="form-control" value={{subject.sub_id}} name="sub_id" id="sub_id"
+                    placeholder="Enetr Subject Id Sould be Unique">
+            </div>
+
+            <div class="mb-3">
+                <label for="sub_name" class="form-label">Subject Name</label>
+                <input type="text" class="form-control" value={{subject.sub_name}} name="sub_name" id="sub_name"
+                    placeholder="Enetr Course Id Sould be Unique">
+            </div>
+
+            
+                <div class="mb-3">
+                    <select class="form-select" name="course_id" aria-label="Default select example">
+                        <option selected>Select Course</option>
+                        {% for course in allCourse %}
+                        <option  value="{{course.course_id}}">{{course.course_name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            
+
+            
+                <div class="mb-3">
+                    <select class="form-select" name="faculty_id" aria-label="Default select example">
+                        <option selected>Select Faculty</option>
+                        {% for faculty in allFaculty %}
+                        <option  value="{{faculty.faculty_id}}">{{faculty.f_name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    {% endfor %}
+</div>
+
+{% endblock body %}

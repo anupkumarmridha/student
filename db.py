@@ -330,7 +330,7 @@ class Database:
 
     # update-student
     def update_subject(self, sub_id, sub_name,course_id, faculty_id):
-        query="update subject set sub_id={}, sub_name='{}', course_id={}, faculty_id={} where subject_id={}".format(sub_id, sub_name, course_id, faculty_id, sub_id)
+        query="update subject set sub_id={}, sub_name='{}', course_id={}, faculty_id={} where sub_id={}".format(sub_id, sub_name, course_id, faculty_id, sub_id)
         print(query)
         cur=self.cnx.cursor()
         cur.execute(query)

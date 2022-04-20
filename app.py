@@ -234,14 +234,17 @@ def addSubject():
 @app.route("/update-subject/<int:sub_id>", methods=['GET', 'POST'])
 def updateSubject(sub_id):
     if request.method=='POST':
-        sub_id=request.form['subject_id']
-        sub_name=request.form['subject_name']
+        sub_id=request.form['sub_id']
+        sub_name=request.form['sub_name']
         course_id=request.form['course_id']
-        stu_roll=request.form['stu_roll']
+        # stu_roll=request.form['stu_roll']
         faculty_id=request.form['faculty_id']
-        db.update_subject(sub_id, sub_name,course_id, stu_roll, faculty_id)
+        db.update_subject(sub_id, sub_name,course_id, faculty_id)
         return redirect('/all-subject')
-    return render_template('update_subject.html')
+    subBio=db.fetch_one_subject(sub_id)
+    allCourse=db.fetch_all_course()
+    allFaculty=db.fetch_all_faculty()
+    return render_template('update_subject.html',subBio=subBio, allCourse=allCourse, allFaculty=allFaculty)
 
 @app.route("/delete-subject/<int:sub_id>", methods=['GET', 'POST'])
 def deleteSubject(sub_id):
