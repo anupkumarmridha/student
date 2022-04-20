@@ -35,6 +35,7 @@
                 <td>{{subject.course_desc}}</td>
                 <td>{{subject.f_name}} {{subject.l_name}}</td>
                 <td>
+                    <a href="/attendance/{{subject.course_id}}/{{subject.sub_id}}" type="button" class="btn btn-outline-success btn-sm mx-1">Take Attendance</a>
                     <a href="/update-subject/{{subject.sub_id}}" type="button" class="btn btn-outline-warning btn-sm mx-1">Update</a>
                     <a href="/delete-subject/{{subject.sub_id}}" type="button"
                         class="btn btn-outline-danger btn-sm mx-1">Delete</a>

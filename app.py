@@ -222,11 +222,7 @@ def enrollCourse(course_id):
             db.insert_enroll(stu_roll,course_id)
         return redirect(url_for('enrolledCourse',course_id=course_id))
     courseBio=db.fetch_one_course(course_id)
-    check_enroll=db.check_course_enroll(course_id=course_id)
-    if check_enroll==1:
-        allStudent=db.fetch_not_enrolled_students(course_id=course_id)
-    else:
-        allStudent=db.fetch_all_student()
+    allStudent=db.fetch_not_enrolled_students()
     return render_template('insert_enroll.html',courseBio=courseBio,allStudent=allStudent)
 
 @app.route("/enrolled-course/<int:course_id>", methods=['GET', 'POST'])
@@ -293,6 +289,37 @@ def allSubjectDeatils():
     # print(allTodo)
     allSub=db.fetch_all_subject()
     return render_template('all_subject_details.html', allSub=allSub)
+
+@app.route("/attendance/<int:course_id>/<int:sub_id>", methods=['GET', 'POST'])
+def TakeAttendance(course_id, sub_id):
+    # print(allTodo)
+    allStudents=db.fetch_subject_students(sub_id)
+    
+    if request.method=='POST':
+        check=request.form.getlist('check')
+        for j in allStudents:
+            stu_roll=j.get('stu_roll')
+            # print(stu_roll)
+            count=0
+            for i in check:
+                print("{}=={}".format(stu_roll,i))
+                if i==str(stu_roll):
+                    count=count+1
+                    break
+            print(count)
+            if count==0:
+                status='A'
+                db.insert_attendance(status, sub_id, stu_roll)
+            else:
+                status='P'
+                db.insert_attendance(status, sub_id, stu_roll)
+        return redirect(url_for('enrolledCourse',course_id=course_id))
+        
+
+    courseBio=db.fetch_course_single_subject(sub_id)
+        
+    # print(courseBio)
+    return render_template('take_attendance.html', allStudents=allStudents,courseBio=courseBio)
 
 
 

@@ -102,10 +102,11 @@ class Database:
                     """
             self.cur.execute(subject_table) 
         
-        # present
-        def create_present():
-            present_table="""create table if not exists present(
-                    present_id int not NULL primary key AUTO_INCREMENT, 
+        # attendance
+        def create_attendance():
+            attendance_table="""create table if not exists attendance(
+                    id int not NULL primary key AUTO_INCREMENT, 
+                    status char(1) not NULL, 
                     stu_roll int not NULL, 
                     sub_id int not NULL, 
                     created_at datetime default now(),
@@ -113,19 +114,7 @@ class Database:
                     foreign key(sub_id) references subject(sub_id) ON UPDATE CASCADE ON DELETE CASCADE
                     );
                     """
-            self.cur.execute(present_table) 
-# absent
-        def create_absent():
-            absent_table="""create table if not exists absent(
-                    absent_id int not NULL primary key AUTO_INCREMENT, 
-                    stu_roll int not NULL, 
-                    sub_id int not NULL, 
-                    created_at datetime default now(),
-                    foreign key(stu_roll) references student(stu_roll) ON UPDATE CASCADE ON DELETE CASCADE,
-                    foreign key(sub_id) references subject(sub_id) ON UPDATE CASCADE ON DELETE CASCADE
-                    );
-                    """
-            self.cur.execute(absent_table)
+            self.cur.execute(attendance_table) 
 # report
         def create_report():
             report_table="""create table if not exists report(
@@ -153,8 +142,7 @@ class Database:
             create_course()
             create_enroll()
             create_subject()
-            create_present()
-            create_absent()
+            create_attendance()
             create_report()
             print("Created")
         except Exception as e:
@@ -341,10 +329,8 @@ class Database:
     #    self.cnx.commit()    #commit method come from connection
 
     def fetch_course_enroll(self, course_id):
-        query="""SELECT * FROM enroll E LEFT OUTER JOIN 
-        student S  ON E.stu_roll=S.stu_roll where course_id={}
-        UNION SELECT * FROM enroll E RIGHT OUTER JOIN 
-        student S  ON E.stu_roll=S.stu_roll where course_id={}""".format(course_id,course_id)
+        query="""select * from enroll e inner join student s on e.stu_roll=s.stu_roll
+         where course_id={}""".format(course_id)
         print(query)
     #    cur=self.cnx.cursor()    #curser method is come from connection
         self.cur.execute(query)
@@ -377,11 +363,9 @@ class Database:
         else:
             return 0
     
-    def fetch_not_enrolled_students(self,course_id):
-        query="""SELECT * FROM enroll E LEFT OUTER JOIN 
-        student S  ON E.stu_roll<>S.stu_roll where course_id={}
-        UNION SELECT * FROM enroll E RIGHT OUTER JOIN 
-        student S  ON E.stu_roll<>S.stu_roll where course_id={}""".format(course_id,course_id)
+    def fetch_not_enrolled_students(self):
+        query="""select * from enroll e right join student s on e.stu_roll=s.stu_roll
+         where e.course_id is NULL ;"""
         self.cur.execute(query)
         result=self.cur.fetchall()
         if len(result)>0:
@@ -448,19 +432,48 @@ class Database:
         cur.execute(query)
         # print("Deleted")
 
+    def fetch_course_single_subject(self, sub_id):
+        query="""
+                select * from course c inner join subject s on c.course_id=s.course_id
+                where s.sub_id={}""".format(sub_id)
+        print(query)
+        self.cur.execute(query)
+        result=self.cur.fetchall()
+        # cur=self.cnx.cursor()
+        if len(result)>0:
+            # return json.dumps(result)
+            return result
+        else:
+            return {"message":"No data Found"}
 
+    def fetch_subject_students(self, sub_id):
+        query="""
+            select * from enroll e inner join student s on e.stu_roll=s.stu_roll 
+            inner join course c on e.course_id=c.course_id 
+            inner join subject sub where sub.course_id= e.course_id and sub_id={}; 
+            """.format(sub_id)
+        print(query)
+        self.cur.execute(query)
+        result=self.cur.fetchall()
+        # cur=self.cnx.cursor()
+        if len(result)>0:
+            # return json.dumps(result)
+            return result
+        else:
+            return []
+        
 # insert present
-    def insert_present(self, present_id, sub_id, stu_roll):
-       query="""insert into present(present_id, sub_id, stu_roll)
-            values({},{},{})""".format(present_id, sub_id, stu_roll)
+    def insert_attendance(self, status, sub_id, stu_roll):
+       query="""insert into attendance(status, stu_roll, sub_id)
+            values('{}',{},{})""".format(status, stu_roll, sub_id)
        print(query)
     #    cur=self.cnx.cursor()    #curser method is come from connection
        self.cur.execute(query)
     #    self.cnx.commit()    #commit method come from connection
 
     # update-student
-    def update_present(self, present_id, sub_id, stu_roll):
-        query="update present set present_id={}, sub_id={}, stu_roll={} where present_id={}".format(present_id, sub_id, stu_roll)
+    def update_attendance(self, status, sub_id, stu_roll):
+        query="update present set status='{}' where sub_id={}, stu_roll={}".format(status, sub_id, stu_roll)
         print(query)
         cur=self.cnx.cursor()
         cur.execute(query)
@@ -489,66 +502,3 @@ class Database:
             return result
         else:
             return {"message":"No data Found"}
-
-        # Delete student
-    def delete_present(self, present_id):
-        
-        query="delete from present where present_id={}".format(present_id)
-        print(query)
-        cur=self.cnx.cursor()
-        
-        cur.execute(query)
-        # print("Deleted")
-
-
-
-# insert absent
-    def insert_absent(self, absent_id, stu_roll, sub_id):
-       query="""insert into absent(absent_id, stu_roll, sub_id)
-            values({},{},{})""".format(absent_id, stu_roll, sub_id)
-       print(query)
-    #    cur=self.cnx.cursor()    #curser method is come from connection
-       self.cur.execute(query)
-    #    self.cnx.commit()    #commit method come from connection
-
-    # update-student
-    def update_absent(self, absent_id, stu_roll, sub_id):
-        query="update absent set absent_id={}, stu_roll={}, sub_id={} where absent_id={}".format(absent_id, stu_roll, sub_id)
-        print(query)
-        cur=self.cnx.cursor()
-        cur.execute(query)
-        
-
-    #fetch all
-    def fetch_all_absent(self):
-        query="select * from absent"
-        self.cur.execute(query)
-        result=self.cur.fetchall()
-        # cur=self.cnx.cursor()
-        if len(result)>0:
-            # return json.dumps(result)
-            return result
-        else:
-            return {"message":"No data Found"}
-
-    #fetch one
-    def fetch_one_absent(self, absent_id):
-        query="select * from student where absent_id={}".format(absent_id)
-        self.cur.execute(query)
-        result=self.cur.fetchall()
-        if len(result)>0:
-            # return json.dumps(result)
-            return result
-        else:
-            return {"message":"No data Found"}
-
-        # Delete student
-    def delete_absent(self, absent_id):
-        
-        query="delete from absent where absent_id={}".format(absent_id)
-        print(query)
-        cur=self.cnx.cursor()
-        
-        cur.execute(query)
-        # print("Deleted")
-
