@@ -1,9 +1,8 @@
-from logging import exception
-from plistlib import InvalidFileException
-from flask import Flask, redirect, render_template, request, url_for
+from flask import Flask, redirect, render_template, request, url_for, make_response
+import pdfkit
 from datetime import datetime
 from db import Database
-from flask_sqlalchemy import SQLAlchemy
+
 
 app = Flask(__name__)
 
@@ -321,8 +320,15 @@ def TakeAttendance(course_id, sub_id):
     # print(courseBio)
     return render_template('take_attendance.html', allStudents=allStudents,courseBio=courseBio)
 
-
-
+@app.route("/attendance_report/<int:course_id>/<int:sub_id>", methods=['GET', 'POST'])
+def DownloadAttendance(course_id, sub_id):
+    allAttendance=db.fetch_subject_attendance(sub_id)
+    TotalPresent=db.fetch_subject_total_present(sub_id)
+    TotalAbsent=db.fetch_subject_total_absent(sub_id)
+    TotalStudent=db.fetch_subject_total_student(sub_id)
+    # print(allAttendance)
+    
+    return render_template('sub_attendnace_report.html',allAttendance=allAttendance,TotalPresent=TotalPresent,TotalAbsent=TotalAbsent,TotalStudent=TotalStudent)
 
 
 

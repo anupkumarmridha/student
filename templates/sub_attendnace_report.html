@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% block title %} Attendance Report {% endblock title %}
+{% block body %}
+
+<div class="container my-3">
+    <h2>Attendance
+        {% include 'aa_nav.html' %}
+    </h2>
+    <div id="content">
+        {% if allAttendance == 0%}
+        <div class="alert alert-dark" role="alert">
+            No Record Found
+        </div>
+        {% else %}
+        <table class="table">
+
+            <tbody>
+                <thead>
+                    <tr>
+                        <th scope="col">sno</th>
+                        <th scope="col">Roll No.</th>
+                        <th scope="col">Student Name</th>
+                        <th scope="col">Attendance</th>
+                        <th scope="col">Course Name</th>
+                        <th scope="col">Subject Name</th>
+                        <th scope="col">Faculty Name</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">
+
+                            <div id="editor"></div>
+                            <button class="btn btn-outline-success btn-sm mx-1" type="submit" id="cmd">generate PDF</button>
+
+                        </th>
+                    </tr>
+                </thead>
+                {% for attendance in allAttendance %}
+                <tr>
+                    <th scope="row">{{loop.index}}</th>
+                    <td>{{attendance.stu_roll}}</td>
+                    <td>{{attendance.s_f_name}} {{attendance.s_l_name}}</td>
+                    <td>{{attendance.status}}</td>
+                    <td>{{attendance.course_name}}</td>
+                    <td>{{attendance.sub_name}}</td>
+                    <td>{{attendance.f_name}} {{attendance.l_name}}</td>
+                    <td>{{attendance.on_date}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% for atten in TotalStudent %}
+        <b>Total Students = {{atten.totalStudent}}</b>
+        {% endfor %}
+        <br>
+        {% for atten in TotalPresent %}
+        <b>Total Present = {{atten.present}}</b>
+        {% endfor %}
+        <br>
+        {% for atten in TotalAbsent %}
+        <b>Total Absent = {{atten.absent}}</b>
+        {% endfor %}
+
+
+        {% endif %}
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
+<script type="text/javascript">
+    var doc = new jsPDF();
+    var specialElementHandlers = {
+        '#editor': function (element, renderer) {
+            return true;
+        }
+    };
+
+    $('#cmd').click(function () {
+        doc.fromHTML($('#content').html(), 15, 15, {
+            'width': 250,
+            'elementHandlers': specialElementHandlers
+        });
+        doc.save('sample-file.pdf');
+    });
+</script>
+
+
+{% endblock body %}

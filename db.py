@@ -29,8 +29,8 @@ class Database:
         def create_student():
                 student_table="""create table if not exists student(
                     stu_roll int not NULL primary key, 
-                    f_name varchar(255) not NULL,
-                    l_name varchar(255) not NULL,
+                    s_f_name varchar(255) not NULL,
+                    s_l_name varchar(255) not NULL,
                     gender enum('M','F'),
                     dob Date,
                     stu_adrs varchar(500),
@@ -109,7 +109,7 @@ class Database:
                     status char(1) not NULL, 
                     stu_roll int not NULL, 
                     sub_id int not NULL, 
-                    created_at datetime default now(),
+                    on_date datetime default now(),
                     foreign key(stu_roll) references student(stu_roll) ON UPDATE CASCADE ON DELETE CASCADE,
                     foreign key(sub_id) references subject(sub_id) ON UPDATE CASCADE ON DELETE CASCADE
                     );
@@ -478,11 +478,14 @@ class Database:
         cur=self.cnx.cursor()
         cur.execute(query)
 
-
-
-    #fetch all
-    def fetch_all_present(self):
-        query="select * from present"
+    def fetch_subject_attendance(self,sub_id):
+        query="""select * from attendance a inner join student s
+                inner join subject sub inner join course c 
+                inner join faculty f where a.stu_roll=s.stu_roll and 
+                sub.sub_id=a.sub_id and a.sub_id={} and c.course_id=sub.course_id 
+                and sub.faculty_id=f.faculty_id""".format(sub_id)
+        
+        print(query)
         self.cur.execute(query)
         result=self.cur.fetchall()
         # cur=self.cnx.cursor()
@@ -490,15 +493,40 @@ class Database:
             # return json.dumps(result)
             return result
         else:
-            return {"message":"No data Found"}
-
-    #fetch one
-    def fetch_one_present(self, present_id):
-        query="select * from present where present_id={}".format(present_id)
+            return 0
+            
+    def fetch_subject_total_student(self,sub_id):
+        query="select count(distinct(stu_roll)) as totalStudent from attendance where sub_id={}".format(sub_id)
+        print(query)
         self.cur.execute(query)
         result=self.cur.fetchall()
+        # cur=self.cnx.cursor()
         if len(result)>0:
             # return json.dumps(result)
             return result
         else:
-            return {"message":"No data Found"}
+            return 0
+
+    def fetch_subject_total_present(self,sub_id):
+        query="select count(status) as present from attendance where sub_id={} and status='P'".format(sub_id)
+        print(query)
+        self.cur.execute(query)
+        result=self.cur.fetchall()
+        # cur=self.cnx.cursor()
+        if len(result)>0:
+            # return json.dumps(result)
+            return result
+        else:
+            return 0
+    
+    def fetch_subject_total_absent(self,sub_id):
+        query="select count(status) as absent from attendance where sub_id={} and status='A'".format(sub_id)
+        print(query)
+        self.cur.execute(query)
+        result=self.cur.fetchall()
+        # cur=self.cnx.cursor()
+        if len(result)>0:
+            # return json.dumps(result)
+            return result
+        else:
+            return 0
