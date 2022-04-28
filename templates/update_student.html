@@ -26,13 +26,13 @@
 
 
         <div class="mb-3">
-            <label for="stu_pass" class="form-label">Password</label>
-            <input type="password" class="form-control" id="stu_pass" value="{{student.stu_pass}}" name="stu_pass" placeholder="Enetr Password">
+            <!--<label for="stu_pass" class="form-label">Password</label>-->
+            <input type="hidden" class="form-control" id="stu_pass" value="{{student.stu_pass}}" name="stu_pass" placeholder="Enetr Password">
         </div>
 
         <div class="mb-3">
-            <label for="stu_pass2" class="form-label">Confirm Password</label>
-            <input type="password" class="form-control" id="stu_pass2" value="{{student.stu_pass}}" name="stu_pass2" placeholder="Confirm Password">
+            <!--<label for="stu_pass2" class="form-label">Confirm Password</label>-->
+            <input type="hidden" class="form-control" id="stu_pass2" value="{{student.stu_pass}}" name="stu_pass2" placeholder="Confirm Password">
         </div>
 
         <div class="mb-3">
@@ -42,12 +42,12 @@
 
         <div class="mb-3">
             <label for="f_name" class="form-label">First Name</label>
-            <input type="text" class="form-control" value="{{student.f_name}}" name="f_name" id="f_name" placeholder="Enetr student First Name">
+            <input type="text" class="form-control" value="{{student.s_f_name}}" name="f_name" id="f_name" placeholder="Enetr student First Name">
         </div>
 
         <div class="mb-3">
             <label for="l_name"  class="form-label" >Last Name</label>
-            <input type="text" class="form-control" value="{{student.l_name}}" name="l_name" id="l_name" placeholder="Enetr student Last Name">
+            <input type="text" class="form-control" value="{{student.s_l_name}}" name="l_name" id="l_name" placeholder="Enetr student Last Name">
         </div>
         <div class="mb-3">
             <select class="form-select" name="gender" aria-label="Default select example">

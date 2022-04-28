@@ -220,17 +220,17 @@ class Database:
 
 
 # insert student
-    def insert_student(self, stu_roll, f_name, l_name, gender, dob, stu_adrs ,stu_email, stu_pass, phone):
-       query="""insert into student(stu_roll, f_name, l_name, gender, dob, stu_adrs ,stu_email, stu_pass, phone)
-            values({},'{}','{}','{}','{}','{}','{}','{}','{}')""".format(stu_roll, f_name, l_name, gender, dob, stu_adrs ,stu_email, stu_pass, phone)
+    def insert_student(self, stu_roll, s_f_name, s_l_name, gender, dob, stu_adrs ,stu_email, stu_pass, phone):
+       query="""insert into student(stu_roll, s_f_name, s_l_name, gender, dob, stu_adrs ,stu_email, stu_pass, phone)
+            values({},'{}','{}','{}','{}','{}','{}','{}','{}')""".format(stu_roll, s_f_name, s_l_name, gender, dob, stu_adrs ,stu_email, stu_pass, phone)
        print(query)
     #    cur=self.cnx.cursor()    #curser method is come from connection
        self.cur.execute(query)
     #    self.cnx.commit()    #commit method come from connection
 
     # update-student
-    def update_student(self, stu_roll, f_name, l_name, gender, dob, stu_adrs ,stu_email, stu_pass, phone):
-        query="update student set stu_roll={}, f_name='{}', l_name='{}', gender='{}', dob='{}', stu_adrs='{}', stu_email='{}', stu_pass='{}', phone='{}' where stu_roll={}".format(stu_roll, f_name, l_name, gender, dob, stu_adrs ,stu_email, stu_pass, phone, stu_roll)
+    def update_student(self, stu_roll, s_f_name, s_l_name, gender, dob, stu_adrs ,stu_email, stu_pass, phone):
+        query="update student set stu_roll={}, s_f_name='{}', s_l_name='{}', gender='{}', dob='{}', stu_adrs='{}', stu_email='{}', stu_pass='{}', phone='{}' where stu_roll={}".format(stu_roll, s_f_name, s_l_name, gender, dob, stu_adrs ,stu_email, stu_pass, phone, stu_roll)
         print(query)
         cur=self.cnx.cursor()
         cur.execute(query)
@@ -340,7 +340,7 @@ class Database:
             # return json.dumps(result)
             return result
         else:
-            return {"message":"No data Found"}
+            return 0
 
     def fetch_one_enroll(self, enroll_id):
         query="select * from enroll where enroll_id={}".format(enroll_id)

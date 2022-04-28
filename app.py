@@ -246,7 +246,7 @@ def addSubject():
         course_id=request.form.get('course_id')
         faculty_id=request.form.get('faculty_id')
         db.insert_subject(sub_id, sub_name,course_id,faculty_id)
-        return redirect('/add-subject')
+        return redirect('/all-subject')
     # print(allTodo)
     allSubject=db.fetch_all_subject()
     allCourse=db.fetch_all_course()
@@ -312,7 +312,8 @@ def TakeAttendance(course_id, sub_id):
             else:
                 status='P'
                 db.insert_attendance(status, sub_id, stu_roll)
-        return redirect(url_for('enrolledCourse',course_id=course_id))
+        return redirect('/all-subject')
+        # return redirect(url_for('enrolledCourse',course_id=course_id))
         
 
     courseBio=db.fetch_course_single_subject(sub_id)
